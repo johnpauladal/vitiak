@@ -1,0 +1,88 @@
+package ${package.Controller};
+
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+
+#if(${restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+#end
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+import ${resultClass};
+
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@RestController
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${kotlin})
+class ${table.controllerName}#if(${superControllerClass}) : ${superControllerClass}()#end
+
+#else
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+    @Autowired
+    ${table.serviceName} service;
+
+    @ApiOperation(value="获取${table.comment}详细信息", notes="根据url的id来获取${table.comment}详细信息")
+    @ApiImplicitParam(name = "id", value = "${table.comment}ID", required = true, dataType = "Long", paramType = "path")
+    @GetMapping("/{id}")
+    public Result<${entity}> getById(@PathVariable Long id){
+        return new Result<>(service.selectById(id));
+    }
+
+    /***
+     * 分页查询数据
+     * @param query
+     * @return
+     */
+    @ApiOperation(value="分页获取${table.comment}详细信息,带上查询条件", notes="根据url的分页获取${table.comment}明细。")
+    @PostMapping("/page")
+    public Object getByPage(@RequestBody @ApiParam(value="分页获取详细信息,带上查询条件",required = true) QueryPage<${entity}> query){
+        return new Result<>(service.selectPage(query.getPage(),new EntityWrapper<>(query.getEntity())));
+    }
+
+    /***
+     * 新增或者更新
+     * @param entity
+     * @return
+     */
+    @ApiOperation(value="新增或者更新${table.comment}信息", notes="新增或者更新${table.comment}信息")
+    @ApiImplicitParam(name="entity",value="要保存的对象",required=true,paramType="body",dataType="${entity}")
+    @PostMapping("/save")
+    public Object save(@RequestBody ${entity} entity){
+        service.insertOrUpdate(entity);
+        return new Result<>("ok");
+    }
+
+    @ApiOperation(value="删除", notes="根据url的id来删除${table.comment}信息")
+    @ApiImplicitParam(name = "id", value = "${table.comment}ID", required = true, dataType = "Long", paramType = "path")
+    @DeleteMapping("/{id}")
+    public Result<Boolean> delById(@PathVariable Long id){
+        return new Result<>(service.deleteById(id));
+    }
+}
+
+#end
