@@ -17,6 +17,7 @@ package com.baomidou.mybatisplus.generator.config;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.kvn.plugin.Debugger;
 import com.kvn.plugin.config.Template;
 import com.kvn.plugin.config.TemplateGroup;
 
@@ -64,22 +65,25 @@ public class TemplateConfig {
                 return template.getName();
             }
         });
-
+//        Debugger.debug(selectTemplateList);
         entity = resetTemplate(entity, selectTemplateNames, templateGroup);
         service = resetTemplate(service, selectTemplateNames, templateGroup);
         serviceImpl = resetTemplate(serviceImpl, selectTemplateNames, templateGroup);
         mapper = resetTemplate(mapper, selectTemplateNames, templateGroup);
         xml = resetTemplate(xml, selectTemplateNames, templateGroup);
         controller = resetTemplate(controller, selectTemplateNames, templateGroup);
+//        Debugger.debug(entity);
     }
 
     private String resetTemplate(String templatePath, List<String> selectTemplateNames, String templateGroup) {
         String templateName = templatePath.substring(templatePath.lastIndexOf("/") + 1);
-        if (selectTemplateNames.contains(templateName)) {
+        String templateNameWithoutVm = templateName.substring(0, templateName.length() - 3); // FIXME ???
+        if (selectTemplateNames.contains(templateName) || selectTemplateNames.contains(templateNameWithoutVm)) {
             return String.format(templatePath, templateGroup);
         }
         return null;
     }
+
 
     public String getEntity(boolean kotlin) {
         return kotlin ? ConstVal.TEMPLATE_ENTITY_KT : entity;

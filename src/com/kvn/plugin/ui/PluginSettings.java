@@ -92,7 +92,7 @@ public class PluginSettings implements Configurable, Configurable.Composite {
 
     @Override
     public boolean isModified() {
-        return PersistentConfig.instance().getAuthor().equals(authorTextField.getText());
+        return !PersistentConfig.instance().getAuthor().equals(authorTextField.getText());
     }
 
     /**

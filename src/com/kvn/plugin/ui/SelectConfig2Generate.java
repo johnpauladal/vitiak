@@ -17,6 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiPackage;
 import com.kvn.plugin.CustomAutoGenerator;
+import com.kvn.plugin.Debugger;
 import com.kvn.plugin.config.Template;
 import com.kvn.plugin.KvnPluginContext;
 import com.kvn.plugin.presistentConfig.PersistentConfig;
@@ -241,6 +242,7 @@ public class SelectConfig2Generate extends JDialog {
 
         // 当前使用的代码生成模板
         TemplateConfig template = new TemplateConfig(PersistentConfig.instance().getCurrTemplateGroupName(), selectTemplateList);
+//        Debugger.debug(template);
         new CustomAutoGenerator().setTemplate(template).setGlobalConfig(config).setStrategy(strategyConfig).setPackageInfo(packageConfig).setDbTables(KvnPluginContext.instance().getDbTableList()).execute();
     }
 

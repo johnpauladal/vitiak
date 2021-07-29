@@ -203,7 +203,7 @@ public class CustomAutoGenerator {
             ctx.put("restControllerStyle", config.getStrategyConfig().isRestControllerStyle());
             ctx.put("package", packageInfo);
             GlobalConfig globalConfig = config.getGlobalConfig();
-            ctx.put("author", globalConfig.getAuthor() + "123");
+            ctx.put("author", globalConfig.getAuthor());
             ctx.put("idType", globalConfig.getIdType() == null ? null : globalConfig.getIdType().toString());
             ctx.put("logicDeleteFieldName", config.getStrategyConfig().getLogicDeleteFieldName());
             ctx.put("versionFieldName", config.getStrategyConfig().getVersionFieldName());
@@ -306,6 +306,8 @@ public class CustomAutoGenerator {
                 }
             });
 
+//            Debugger.debug(template.getController());
+
             // 根据override标识来判断是否需要创建文件
             if (template.getEntity(false) != null && isCreate(entityFile)) {
                 vmToFile(context, template.getEntity(config.getGlobalConfig().isKotlin()), entityFile, templateImmutableMap);
@@ -366,7 +368,13 @@ public class CustomAutoGenerator {
             return;
         }
 
-        com.kvn.plugin.config.Template template = templateImmutableMap.get(templatePath.substring(templatePath.lastIndexOf("/") + 1));
+        String key = templatePath.substring(templatePath.lastIndexOf("/") + 1);
+        com.kvn.plugin.config.Template template = templateImmutableMap.get(key);
+//        Debugger.debug(templatePath.substring(templatePath.lastIndexOf("/") + 1) + "====>" + templateImmutableMap);
+        if (template == null) {
+            key = key.substring(0, key.length() - 3);
+            template = templateImmutableMap.get(key);
+        }
         VelocityEngine velocityEngine = new VelocityEngine();
         StringWriter stringWriter = new StringWriter();
         velocityEngine.setProperty("input.encode", "UTF-8");
