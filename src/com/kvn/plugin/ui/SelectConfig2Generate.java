@@ -17,9 +17,8 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiPackage;
 import com.kvn.plugin.CustomAutoGenerator;
-import com.kvn.plugin.Debugger;
-import com.kvn.plugin.config.Template;
 import com.kvn.plugin.KvnPluginContext;
+import com.kvn.plugin.config.Template;
 import com.kvn.plugin.presistentConfig.PersistentConfig;
 import org.apache.commons.lang3.StringUtils;
 
@@ -121,7 +120,7 @@ public class SelectConfig2Generate extends JDialog {
         //添加模板组
         checkBoxList.clear();
         templatePanel.setLayout(new GridLayout(6, 2));
-        KvnPluginContext.instance().getSelectedTemplateGroup().getElementList().forEach(template -> {
+        PersistentConfig.instance().getSelectedTemplateGroup().getElementList().forEach(template -> {
             JCheckBox checkBox = new JCheckBox(template.getName());
             checkBoxList.add(checkBox);
             templatePanel.add(checkBox);
@@ -267,7 +266,7 @@ public class SelectConfig2Generate extends JDialog {
             return selectTemplateList;
         }
         // 将复选框转换成对应的模板对象
-        KvnPluginContext.instance().getSelectedTemplateGroup().getElementList().forEach(template -> {
+        PersistentConfig.instance().getSelectedTemplateGroup().getElementList().forEach(template -> {
             if (selectTemplateNameList.contains(template.getName())) {
                 selectTemplateList.add(template);
             }

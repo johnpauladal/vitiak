@@ -2,9 +2,11 @@ package com.kvn.plugin.ui;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.kvn.plugin.KvnPluginContext;
 import com.kvn.plugin.config.Template;
 import com.kvn.plugin.config.TemplateGroup;
 import com.kvn.plugin.presistentConfig.PersistentConfig;
+import com.kvn.plugin.tools.CloneUtils;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,7 +58,7 @@ public class TemplateSettingsByGroupUi extends SettingsByGroupUi<TemplateGroup, 
     @Override
     public void apply() throws ConfigurationException {
         PersistentConfig.instance().setCurrTemplateGroupName(currGroupName);
-        PersistentConfig.instance().setTemplateGroupMap(settingsGroupMap);
+        PersistentConfig.instance().setTemplateGroupMap(CloneUtils.instance().cloneMap(settingsGroupMap));
     }
 
     @Override

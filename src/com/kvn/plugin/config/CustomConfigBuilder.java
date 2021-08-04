@@ -31,6 +31,7 @@ import com.intellij.database.psi.DbTable;
 import com.intellij.database.util.DasUtil;
 import com.intellij.util.containers.JBIterable;
 import com.kvn.plugin.KvnPluginContext;
+import com.kvn.plugin.presistentConfig.PersistentConfig;
 
 import java.io.File;
 import java.util.*;
@@ -102,7 +103,7 @@ public class CustomConfigBuilder {
         } else {
             this.globalConfig = globalConfig;
         }
-        this.templateGroup = KvnPluginContext.instance().getSelectedTemplateGroup();
+        this.templateGroup = PersistentConfig.instance().getSelectedTemplateGroup();
         // 模板配置
         if (null == template) {
             this.template = new TemplateConfig(templateGroup.getName(), null);

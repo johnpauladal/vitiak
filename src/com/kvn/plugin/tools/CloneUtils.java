@@ -18,7 +18,7 @@ public class CloneUtils {
     /**
      * 单例模式
      */
-    public static CloneUtils getInstance() {
+    public static CloneUtils instance() {
         if (cloneUtils == null) {
             synchronized (CloneUtils.class) {
                 if (cloneUtils == null) {

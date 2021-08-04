@@ -111,8 +111,6 @@ public class PluginSettings implements Configurable, Configurable.Composite {
     @NotNull
     @Override
     public Configurable[] getConfigurables() {
-        // 初始化上下文
-        KvnPluginContext.initAfterSettingsPop();
 
         Configurable[] result = new Configurable[2];
         result[0] = new TemplateSettingsByGroupUi();

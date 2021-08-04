@@ -4,13 +4,9 @@ import com.intellij.database.psi.DbTable;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.kvn.plugin.config.Template;
-import com.kvn.plugin.config.TemplateGroup;
-import com.kvn.plugin.presistentConfig.PersistentConfig;
 import lombok.Getter;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Plugin上下文
@@ -40,14 +36,6 @@ public class KvnPluginContext {
 
     /*************************************插件面板弹出后就确定的属性*************************************/
     /**
-     * 模板组对象
-     */
-    private TemplateGroup selectedTemplateGroup;
-    /**
-     * 插件中配置好的模板组对象
-     */
-    private Map<String/*groupName*/, TemplateGroup> templateGroupMap;
-    /**
      * 所有选中的表
      */
     private List<DbTable> dbTableList;
@@ -64,47 +52,20 @@ public class KvnPluginContext {
      */
     private DbTable selectDbTable;
 
-    /**
-     * 获取用户当前选择的模板组
-     * @return
-     */
-    public TemplateGroup getSelectedTemplateGroup(){
-        return templateGroupMap.get(PersistentConfig.instance().getCurrTemplateGroupName());
-    }
-
-
-    /**
-     * 当用户点击 File -> Settings 时，需要初始化的信息
-     */
-    public static void initAfterSettingsPop(){
-        initTemplateGroupMap();
-    }
 
     /**
      * 当弹出插件使用对话框后需要初始化的信息
-     * @param templateGroup
      * @param dbTableList
      * @param modules
      * @param project
      * @param selectDbTable
      */
-    public static void initAfterPluginPop(TemplateGroup templateGroup, List<DbTable> dbTableList, Module[] modules, Project project, DbTable selectDbTable) {
+    public static void initAfterPluginPop(List<DbTable> dbTableList, Module[] modules, Project project, DbTable selectDbTable) {
         KvnPluginContext instance = KvnPluginContext.instance();
-        instance.selectedTemplateGroup = templateGroup;
         instance.dbTableList = dbTableList;
         instance.modules = modules;
         instance.project = project;
         instance.selectDbTable = selectDbTable;
-        initTemplateGroupMap();
-    }
-
-    private static void initTemplateGroupMap() {
-        KvnPluginContext instance = KvnPluginContext.instance();
-        //配置默认模板
-        if (instance.templateGroupMap == null) {
-            instance.templateGroupMap = new LinkedHashMap<>();
-        }
-        instance.templateGroupMap = TemplateGroup.loadDefaultTemplateGroupMap();
     }
 
 

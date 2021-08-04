@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -131,7 +130,7 @@ public class PluginGlobalConfigSettingsPanel implements Configurable {
                 JOptionPane.showMessageDialog(null, "Item Name Can't Is Empty!");
                 return;
             }
-            item = CloneUtils.getInstance().clone(item);
+            item = CloneUtils.instance().clone(item);
             // 设置元素名称
             item.setName(value);
             itemList.add(item);
@@ -146,9 +145,9 @@ public class PluginGlobalConfigSettingsPanel implements Configurable {
      */
     private void initItem() {
         initFlag = false;
-        //获取选中组的所有元素
+        // 获取所有元素
         if (pluginGlobalConfigList == null) {
-            pluginGlobalConfigList = CloneUtils.getInstance().cloneList(PersistentConfig.instance().getPluginGlobalConfigList());
+            pluginGlobalConfigList = CloneUtils.instance().cloneList(PersistentConfig.instance().getPluginGlobalConfigList());
         }
         List<PluginGlobalConfig> elementList = pluginGlobalConfigList;
         itemListPanel.removeAll();
@@ -228,6 +227,7 @@ public class PluginGlobalConfigSettingsPanel implements Configurable {
 
     @Override
     public void apply() throws ConfigurationException {
-        PersistentConfig.instance().setPluginGlobalConfigList(pluginGlobalConfigList);
+        // 提交保存时，不能将Pannel上的属性的引用直接赋值到PersistentConfig，否则 #isModified() 将失去意义
+        PersistentConfig.instance().setPluginGlobalConfigList(CloneUtils.instance().cloneList(pluginGlobalConfigList));
     }
 }

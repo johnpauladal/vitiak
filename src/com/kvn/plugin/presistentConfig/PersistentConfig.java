@@ -90,6 +90,14 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
         }
     }
 
+    /**
+     * 获取用户当前选择的模板组
+     * @return
+     */
+    public TemplateGroup getSelectedTemplateGroup(){
+        return templateGroupMap.get(PersistentConfig.instance().getCurrTemplateGroupName());
+    }
+
     @Nullable
     @Override
     public PersistentConfig getState() {

@@ -8,7 +8,6 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
-import com.kvn.plugin.config.TemplateGroup;
 import com.kvn.plugin.KvnPluginContext;
 import com.kvn.plugin.ui.SelectConfig2Generate;
 
@@ -72,8 +71,8 @@ public class PluginMainAction extends AnAction {
             return;
         }
 
-        // 初始化上下文 FIXME 根据用户配置来加载模板
-        KvnPluginContext.initAfterPluginPop(TemplateGroup.loadTemplateGroup("sf-MyBatisPlus"), dbTableList, modules, project, selectDbTable);
+        // 初始化上下文
+        KvnPluginContext.initAfterPluginPop(dbTableList, modules, project, selectDbTable);
 
         System.out.println("initKvnPluginContext success!");
     }

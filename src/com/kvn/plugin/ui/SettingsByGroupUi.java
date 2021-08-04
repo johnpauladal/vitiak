@@ -189,7 +189,7 @@ public abstract class SettingsByGroupUi<T extends AbstractGroup<E>, E>{
                 return;
             }
             // 克隆对象
-            T groupItem = CloneUtils.getInstance().clone(settingsGroupMap.get(currGroupName));
+            T groupItem = CloneUtils.instance().clone(settingsGroupMap.get(currGroupName));
             groupItem.setName(value);
             settingsGroupMap.put(value, groupItem);
             currGroupName = value;
@@ -282,7 +282,7 @@ public abstract class SettingsByGroupUi<T extends AbstractGroup<E>, E>{
                 JOptionPane.showMessageDialog(null, "Item Name Can't Is Empty!");
                 return;
             }
-            item = CloneUtils.getInstance().clone(item);
+            item = CloneUtils.instance().clone(item);
             // 设置元素名称
             setItemName(item, value);
             itemList.add(item);
