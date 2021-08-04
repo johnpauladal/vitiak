@@ -1,9 +1,5 @@
 package ${package.Entity};
 
-#if(${activeRecord})
-import java.io.Serializable;
-
-#end
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
 #end
@@ -12,21 +8,23 @@ import ${pkg};
 import com.baomidou.mybatisplus.annotations.Version;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 #end
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
  * $!{table.comment}
  * </p>
  *
- * @author ${author}
+ * @author jacky
  * @since ${date}
  */
+@ApiModel(description= "${table.comment}")
 #if(${entityLombokModel})
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 #end
 #if(${table.convert})
@@ -51,6 +49,7 @@ public class ${entity} implements Serializable {
     /**
      * ${field.comment}
      */
+    @ApiModelProperty(value = "${field.comment}")
 #end
 #if(${field.keyFlag})
 ## 主键

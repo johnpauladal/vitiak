@@ -86,7 +86,7 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
             this.templateGroupMap = TemplateGroup.loadDefaultTemplateGroupMap();
         }
         if (pluginGlobalConfigList == null) {
-            pluginGlobalConfigList = Lists.newArrayList(new PluginGlobalConfig("resultClass", "com.sf.avcp.core.common.base.Result"));
+            pluginGlobalConfigList = Lists.newArrayList(new PluginGlobalConfig("resultClass", "com.sf.avcp.core.common.base.Result"), new PluginGlobalConfig("queryPageClass", "com.sf.avcp.core.common.base.QueryPage"));
         }
     }
 

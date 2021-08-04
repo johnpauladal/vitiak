@@ -16,6 +16,7 @@ import ${superControllerClassPackage};
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
 import ${resultClass};
+import ${queryPageClass};
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiImplicitParam;
