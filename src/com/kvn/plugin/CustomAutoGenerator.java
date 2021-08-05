@@ -100,7 +100,15 @@ public class CustomAutoGenerator {
         for (Map.Entry<String, VelocityContext> ctx : ctxData.entrySet()) {
             batchOutput(ctx.getKey(), ctx.getValue());
         }
-        // 打开输出目录
+
+        openOutputPath();
+        logger.debug("==========================文件生成完成！！！==========================");
+    }
+
+    /**
+     * 打开文件输出目录
+     */
+    private void openOutputPath() {
         if (config.getGlobalConfig().isOpen()) {
             try {
                 String osName = System.getProperty("os.name");
@@ -117,7 +125,6 @@ public class CustomAutoGenerator {
                 e.printStackTrace();
             }
         }
-        logger.debug("==========================文件生成完成！！！==========================");
     }
 
     /**

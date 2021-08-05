@@ -13,7 +13,6 @@ idea插件，自动生成spring+mybatis代码。模板可以自定义扩展
 #### 使用
 ![baidu](img/00.png)
 ![baidu](img/01.png)
-![baidu](img/02.png)
 ![baidu](img/03.png)
 ![baidu](img/04.png)
 ![baidu](img/05.png)
