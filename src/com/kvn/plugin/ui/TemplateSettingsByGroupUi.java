@@ -2,6 +2,7 @@ package com.kvn.plugin.ui;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.kvn.plugin.Debugger;
 import com.kvn.plugin.KvnPluginContext;
 import com.kvn.plugin.config.Template;
 import com.kvn.plugin.config.TemplateGroup;
@@ -59,6 +60,8 @@ public class TemplateSettingsByGroupUi extends SettingsByGroupUi<TemplateGroup, 
     public void apply() throws ConfigurationException {
         PersistentConfig.instance().setCurrTemplateGroupName(currGroupName);
         PersistentConfig.instance().setTemplateGroupMap(CloneUtils.instance().cloneMap(settingsGroupMap));
+        // 更新插件version为当前最新版本
+        PersistentConfig.instance().setVersion(Debugger.PLUGIN_VERSION);
     }
 
     @Override

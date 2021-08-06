@@ -6,14 +6,13 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.Transient;
+import com.kvn.plugin.Debugger;
 import com.kvn.plugin.config.TemplateGroup;
 import com.kvn.plugin.config.TemplateGroupEnum;
 import lombok.Data;
-import org.fest.util.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +25,11 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
 
     @Transient
     private volatile boolean hasInitDefault;
+
+    /**
+     * 版本号。升级的时候使用。防止缓存文件不兼容
+     */
+    private String version;
 
     /**
      * 作者
@@ -46,12 +50,13 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
      */
     private List<PluginGlobalConfig> pluginGlobalConfigList;
 
-    public TemplateGroup getCurrTemplateGroup(){
+    public TemplateGroup getCurrTemplateGroup() {
         return templateGroupMap.get(currTemplateGroupName);
     }
 
     /**
      * 获取单例实例对象
+     *
      * @return 实例对象
      */
     public static PersistentConfig instance() {
@@ -80,21 +85,23 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
     }
 
     public void doInit() {
+        this.version = Debugger.PLUGIN_VERSION;
         this.author = "Administrator";
         //配置默认模板
         if (this.templateGroupMap == null) {
             this.templateGroupMap = TemplateGroup.loadDefaultTemplateGroupMap();
         }
         if (pluginGlobalConfigList == null) {
-            pluginGlobalConfigList = Lists.newArrayList(new PluginGlobalConfig("resultClass", "com.sf.avcp.core.common.base.Result"), new PluginGlobalConfig("queryPageClass", "com.sf.avcp.core.common.base.QueryPage"));
+            pluginGlobalConfigList = PluginGlobalConfig.defaultPluginGlobalConfigList();
         }
     }
 
     /**
      * 获取用户当前选择的模板组
+     *
      * @return
      */
-    public TemplateGroup getSelectedTemplateGroup(){
+    public TemplateGroup getSelectedTemplateGroup() {
         return templateGroupMap.get(PersistentConfig.instance().getCurrTemplateGroupName());
     }
 
@@ -104,23 +111,32 @@ public class PersistentConfig implements PersistentStateComponent<PersistentConf
         return this;
     }
 
+    /**
+     * 加载缓存的配置
+     *
+     * @param cachedPersistentConfig 缓存的配置
+     */
     @Override
-    public void loadState(@NotNull PersistentConfig persistentConfig) {
-        // 备份初始配置
-        Map<String, TemplateGroup> templateGroupMap = persistentConfig.getTemplateGroupMap();
-        if (templateGroupMap == null) {
-            persistentConfig.initDefault();
+    public void loadState(@NotNull PersistentConfig cachedPersistentConfig) {
+        Map<String, TemplateGroup> cachedTemplateGroupMap = cachedPersistentConfig.getTemplateGroupMap();
+        if (cachedTemplateGroupMap == null) {
+            cachedPersistentConfig.initDefault();
         }
-        // 覆盖初始配置
-        XmlSerializerUtil.copyBean(persistentConfig, this);
+        // 用缓存的配置覆盖初始配置
+        XmlSerializerUtil.copyBean(cachedPersistentConfig, this);
 
-        // FIXME 已经合并不再重复合并
-//        // 合并配置
-//        templateGroupMap.forEach((name, templateGroup) -> {
-//            if (this.getTemplateGroupMap().containsKey(name)) {
-//                return;
-//            }
-//            this.getTemplateGroupMap().put(name, templateGroup);
-//        });
+        // 插件版本升级后，持久化配置需要合并
+        if (cachedPersistentConfig.getVersion() != null && cachedPersistentConfig.getVersion().equals(Debugger.PLUGIN_VERSION)) {
+            return;
+        }
+
+        // 插件本身的 templateGroup 覆盖用户配置的 templateGroup
+        Map<String, TemplateGroup> defaultTemplateGroupMap = TemplateGroup.loadDefaultTemplateGroupMap();
+        cachedTemplateGroupMap.forEach((name, templateGroup) -> {
+            if (!defaultTemplateGroupMap.containsKey(name)) {
+                return;
+            }
+            this.getTemplateGroupMap().put(name, defaultTemplateGroupMap.get(name));
+        });
     }
 }
