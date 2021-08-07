@@ -7,7 +7,7 @@ public class Debugger {
     /**
      * dubug开关。true：在idea环境下调试。false：打包插件时的设置
      */
-    public static final boolean DEBUG_SWITCH = true;
+    public static final boolean DEBUG_SWITCH = false;
     /**
      * 插件版本，升级时使用。防止插件升级后，用户本地缓存的配置文件不兼容。
      */
