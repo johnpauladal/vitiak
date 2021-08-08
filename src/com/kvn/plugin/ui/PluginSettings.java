@@ -3,7 +3,6 @@ package com.kvn.plugin.ui;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.UnnamedConfigurable;
-import com.kvn.plugin.KvnPluginContext;
 import com.kvn.plugin.presistentConfig.PersistentConfig;
 import com.kvn.plugin.tools.CollectionUtil;
 import org.jetbrains.annotations.Nls;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
