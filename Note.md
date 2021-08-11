@@ -13,5 +13,5 @@ https://blog.csdn.net/wjskeepmaking/article/details/78815896
 https://blog.csdn.net/sunrainamazing/article/details/80763743
 
 * c. 运行和调试  
-运行：Run -> Run xxx  （xxx为插件名称）
+运行：Run -> Run xxx  （xxx为插件名称）  
 调试：Run -> Debug xxx
