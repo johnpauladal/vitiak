@@ -15,3 +15,6 @@ https://blog.csdn.net/sunrainamazing/article/details/80763743
 * c. 运行和调试  
 运行：Run -> Run xxx  （xxx为插件名称）  
 调试：Run -> Debug xxx
+
+* d. 插件打包  
+Build -> Prepare Plugin Module xxx For Deployment
