@@ -18,3 +18,7 @@ https://blog.csdn.net/sunrainamazing/article/details/80763743
 
 * d. 插件打包  
 Build -> Prepare Plugin Module xxx For Deployment
+
+* e. 查找某个插件的 id 和 面板信息  
+可以到 IDEA 安装目录下的 plugins 目录找到相应的插件 jar 包，打开 jar 包，找到相应的 plugin.xml 进行查看  
+如：`C:\JetBrains\IntelliJ IDEA 2018.1.2\plugins\DatabaseTools\lib` 
